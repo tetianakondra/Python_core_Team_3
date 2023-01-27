@@ -98,7 +98,7 @@ class AddressBook(UserDict):
                     self.found_list.append({key: val})
                     
             for cont_data in val.values():
-                if part_of_data in cont_data:
+                if cont_data != None and part_of_data in cont_data:
                     self.found_list.append({key: val})
         if not self.found_list:
             return f"There is no contacts with this data"
