@@ -2,6 +2,9 @@ from collections import UserDict
 from datetime import datetime, timedelta
 import csv
 import re
+from prompt_toolkit import prompt
+from prompt_toolkit.completion import WordCompleter
+from prompt_toolkit.key_binding import KeyBindings
 
 finish_words = ["goodbye", "close", "exit"]
 COMMAND_WORDS = ["add", "change", "phone", "show_all", "help", "delete", "address", "email", "birthday", "days_to_birthday", "get_birthdays", "save", "get_book", "find"]
@@ -66,7 +69,7 @@ class AddressBook(UserDict):
                 writer.writerow(val)
 
     def unpaking_address_book(self):
-        
+
         with open("address_book.csv", "r", newline = "") as fh:
             self.unpacked_data = {}
             reader = csv.DictReader(fh)
@@ -92,11 +95,11 @@ class AddressBook(UserDict):
     def find_contact(self, part_of_data):
         self.found_list = []
         for key, val in self.data.items():
-            
+
             for phone in self.data[key]["phones"]:
                 if part_of_data in phone and not {key: val} in self.found_list:
                     self.found_list.append({key: val})
-                    
+
             for cont_data in val.values():
                 if cont_data != None and part_of_data in cont_data:
                     self.found_list.append({key: val})
@@ -104,7 +107,7 @@ class AddressBook(UserDict):
             return f"There is no contacts with this data"
         else:
             return self.found_list
-        
+
 class Iterable():
 
     def __init__(self, len_address_book, quantity_on_page):
@@ -157,38 +160,38 @@ class Record(Field):
         return new_user
 
     def change_number(self, name, phones, address_book):
-        for key, val in address_book.items(): 
+        for key, val in address_book.items():
             if key == name:
                 return {name: {"name": name, "phones": phones, "birthday": address_book[key]["birthday"], "email": address_book[key]["email"], "address": address_book[key]["address"]}}
         return f"There is no user with name {name}"
-    
+
     def add_address(self, name, address, address_book):
-        for key, val in address_book.items(): 
+        for key, val in address_book.items():
             if key == name:
                 return {name: {"name": name, "phones": address_book[key]["phones"], "birthday": address_book[key]["birthday"], "email": address_book[key]["email"], "address": address}}
         return f"There is no user with name {name}"
 
     def add_birthday(self, name, birthday, address_book):
-        for key, val in address_book.items(): 
+        for key, val in address_book.items():
             if key == name:
                 return {name: {"name": name, "phones": address_book[key]["phones"], "birthday": birthday, "email": address_book[key]["email"], "address": address_book[key]["address"]}}
         return f"There is no user with name {name}"
 
     def add_email(self, name, email, address_book):
-        for key, val in address_book.items(): 
+        for key, val in address_book.items():
             if key == name:
                 return {name: {"name": name, "phones": address_book[key]["phones"], "birthday": address_book[key]["birthday"], "email": email, "address": address_book[key]["address"]}}
         return f"There is no user with name {name}"
 
     def show_phone(self, name, address_book):
-        
+
         for key, val in address_book.items():
             if key == name:
                 return f"the user {key} has the next phone numbers {address_book[key]['phones']}"
         return f"There is not {name} in the Address book"
-    
+
     def days_to_birthday(self, name, address_book):
-        for key, val in address_book.items(): 
+        for key, val in address_book.items():
             if key == name and address_book[key]["birthday"]:
                 self.date_today = datetime.now()
                 self.next_birthday = datetime(year = self.date_today.year, month = int(address_book[key]["birthday"][3:5]), day = int(address_book[key]["birthday"][0:2]))
@@ -202,7 +205,7 @@ class Record(Field):
                     days_till_birthday = difference[0].split(" ")
                     return days_till_birthday[0]
         return f"There is not {name} in the Address book or user doesn't save the birthday"
-                
+
 
 class Name(Field):
 
@@ -230,21 +233,21 @@ class Email(Field):
 
         self.__email = new_email
         check_email = re.search(r"[a-zA-Z]\w\w*[.]?\w*[.]?\w*[@]\w+[.]\w{2}\w*", self.__email)
-        
+
 
         while True:
 
             try:
 
                 if not check_email:
-                    raise EmailNotEmail     
+                    raise EmailNotEmail
 
             except EmailNotEmail:
                 self.__email = input("Please, enter the actual email in format xx@xx.xx ")
                 check_email = re.search(r"[a-zA-Z]\w\w*[.]?\w*[.]?\w*[@]\w+[.]\w{2}\w*", self.__email)
             else:
                 break
-            
+
         return self.__email
 
 class Phone(Field):
@@ -303,14 +306,14 @@ class Birthday(Field):
                 for elem in birth_date:
                     if not elem.isdigit():
                         raise BirthdayNotDate
-                if len(birth_date) != 3: 
-                    raise BirthdayNotDate 
-                if int(birth_date[1]) > 12 or int(birth_date[1]) < 1 or int(birth_date[0]) < 1: 
+                if len(birth_date) != 3:
+                    raise BirthdayNotDate
+                if int(birth_date[1]) > 12 or int(birth_date[1]) < 1 or int(birth_date[0]) < 1:
                     raise BirthdayNotDate
                 if int(birth_date[2]) >= int(self.current_day.year) and int(birth_date[1]) > int(self.current_day.month) and int(birth_date[0]) > int(self.current_day.day):
-                    raise BirthdayNotDate  
+                    raise BirthdayNotDate
                 if int(birth_date[2]) > int(self.current_day.year) or int(birth_date[2]) < int(self.current_day.year)-100:
-                    raise BirthdayNotDate         
+                    raise BirthdayNotDate
                 if int(birth_date[1]) == 2:
                     if int(birth_date[2]) % 4 == 0 and int(birth_date[0]) > 29 or int(birth_date[2]) % 4 != 0 and int(birth_date[0]) > 28:
                         raise BirthdayNotDate
@@ -324,23 +327,42 @@ class Birthday(Field):
                         raise BirthdayNotDate
                     else:
                         break
-                
+
             except BirthdayNotDate:
                 self.__birthday = input("Please, enter the actual birthday in format DD.MM.YYYY ")
                 birth_date = self.__birthday.split(".")
             else:
                 break
-            
-        return self.__birthday 
-        
+
+        return self.__birthday
+
+command_completer = WordCompleter(COMMAND_WORDS,ignore_case=True,)
+
+
+kb = KeyBindings()
+
+
+@kb.add("c-space")
+def _(event):
+    """
+    Start auto completion. If the menu is showing already, select the next
+    completion.
+    """
+    b = event.app.current_buffer
+    if b.complete_state:
+        b.complete_next()
+    else:
+        b.start_completion(select_first=False)
+
+
+
 def main():
 
     """
     This function takes the command from user and do what the user asks.
     It stops the process when the key words are entered
-
     """
-    
+
     contacts = AddressBook()
 
     first_command = input("Do you want to restore your saved address book? Enter Yes or No: ")
@@ -348,12 +370,12 @@ def main():
 
     if first_command_small_letters == "yes":
 
-        try: 
+        try:
             contacts.unpaking_address_book()
         except FileNotFoundError:
             print("You don't have the saved address book")
 
-            
+
     while True:
 
         change_user = Record()
@@ -364,13 +386,20 @@ def main():
 
 
 
-        user_command = input("Enter your command and data or enter 'help' to get the manual of bot  ")
-        user_command_small_letters = user_command.lower()
+               
+
+        user_command = prompt(
+            "Enter your command and data or enter 'help' to get the manual of bot  ",
+            completer=command_completer,
+            complete_while_typing=False,
+            key_bindings=kb,
+        ) 
+        user_command_small_letters =user_command.lower()
 
         if user_command_small_letters == "hello":
             print("How can I help you?")
 
-        
+
 
 
         for word in COMMAND_WORDS:
@@ -381,7 +410,7 @@ def main():
 
                 user_data = user_command.split(" ")
 
-                
+
                 if user_data[0].lower() == "add":
                     if len(user_data) > 2:
                         user_phone.phones = user_data[2::]
@@ -426,15 +455,15 @@ def main():
 
                 elif user_data[0].lower() == "address":
                     if len(user_data) >= 3:
-                        user_address.address = " ".join(user_data[2:])
+                        user_address.address = "".join(user_data[2:])
                         print(contacts.add_record(change_user.add_address(change_user.record_name(Name().user_name_def(user_data[1])), user_address.address, contacts.get_contacts())))
-                       
-                        
+
+
                 elif user_data[0].lower() == "email":
                     if len(user_data) == 3:
                         user_email.email = user_data[2]
                         print(contacts.add_record(change_user.add_email(change_user.record_name(Name().user_name_def(user_data[1])), user_email.email, contacts.get_contacts())))
-                       
+
                 elif user_data[0].lower() == "delete":
                     if len(user_data) == 2:
                         try:
@@ -443,12 +472,12 @@ def main():
                             print(f"There is no {user_data[1]}in address book")
                         else:
                             print(f"{user_data[1]} was deleted from address book")
-                            
-                       
+
+
                 elif user_data[0].lower() == "phone":
                     if len(user_data) > 1:
                         print(change_user.show_phone(Name().user_name_def(user_data[1]), contacts.get_contacts()))
-                        
+
                 elif user_data[0].lower() == "days_to_birthday":
                     if len(user_data) > 1:
                         print(change_user.days_to_birthday(Name().user_name_def(user_data[1]), contacts.get_contacts()))
@@ -465,16 +494,16 @@ def main():
                                 print(list_users_with_birthday)
                         except ValueError:
                             print(f"The number of days till birthday should be as integer")
-                            
+
                     else:
                         print("Enter get_birthdays and number no more than 365")
-                        
+
 
                 elif user_data[0].lower() == "save":
                     contacts.saving_address_book()
 
                 elif user_data[0].lower() == "get_book":
-                    try: 
+                    try:
                         contacts.unpaking_address_book()
                     except FileNotFoundError:
                         print("You don't have the saved address book")
@@ -490,12 +519,9 @@ def main():
                 contacts.saving_address_book()
                 break
             break
-        
+
     print("Good bye!")
 
 
 if __name__ == '__main__':
     main()
-
-    
-
