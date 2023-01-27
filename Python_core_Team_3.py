@@ -425,8 +425,8 @@ def main():
                         print(contacts.add_record(change_user.add_birthday(change_user.record_name(Name().user_name_def(user_data[1])), user_birthday.birthday, contacts.get_contacts())))
 
                 elif user_data[0].lower() == "address":
-                    if len(user_data) == 3:
-                        user_address.address = "".join(user_data[2:])
+                    if len(user_data) >= 3:
+                        user_address.address = " ".join(user_data[2:])
                         print(contacts.add_record(change_user.add_address(change_user.record_name(Name().user_name_def(user_data[1])), user_address.address, contacts.get_contacts())))
                        
                         
