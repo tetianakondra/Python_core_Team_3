@@ -3,37 +3,36 @@ import Python_core_Team_3
 import Clean_folder
 from consolemenu import *
 from consolemenu.items import *
+from termcolor import colored
 
-a_b = "Address Book - застосунок, що дозволяє створювати контакти та редагувати їх.\nДетально дивись Help застосунку."
-n = "Notes- застосунок, що дозволяє створювати нотатки та редагувати їх.\nДетально дивись Help застосунку."
-c_f = "Clean Folder - застосунок, що сортує файли в зазнеченій теці.\nВ поле вводу необхідно ввести шлях до теки в " \
-      "якій будуть відсортовані файли"
+a_b = "Address Book - the application that allows you to create and edit contacts.\nSee the application's Help for " \
+      "details."
+n = "Notes- the application that allows you to create and edit notes.\nSee the application's Help for details."
+c_f = "Clean Folder - the application that sorts files in the specified folder.\nIn the input field, you have to " \
+      "enter the path to the folder in which the files will be sorted"
 
 
 # Create the menu
-menu = ConsoleMenu("CLI Assistant", "Subtitle")
+menu = ConsoleMenu(colored("CLI Assistant", "blue"),  colored("The application that provides work with the "
+                                                                  "address book and notes, and also sorts files in "
+                                                                  "the specified folder", "blue"))
 
-# Create some items
-
-# MenuItem is the base class for all items, it doesn't do anything when selected
-menu_item = MenuItem("Menu Item")
 
 # A FunctionItem runs a Python function when selected
-address_book = FunctionItem("Address Book", Python_core_Team_3.main, [])
-clean_folder = FunctionItem("Clean Folder", Clean_folder.main, [])
-notes = FunctionItem("Notes", input, [">>>"])
-
-# A CommandItem runs a console command
-command_item = CommandItem("Run a console command",  "clear")
+address_book = FunctionItem(colored("Address Book", "yellow"), Python_core_Team_3.main, [])
+clean_folder = FunctionItem(colored("Clean Folder", "yellow"), Clean_folder.main, [])
+notes = FunctionItem(colored("Notes", "yellow"), input, [">>>"])
 
 # A SelectionMenu constructs a menu from a list of strings
 selection_menu_about = SelectionMenu([a_b, n, c_f])
-selection_menu_creators = SelectionMenu(["creator_1", "creator_2", "creator_3", "creator_4", "creator_5"])
+selection_menu_creators = SelectionMenu(["Andrii, andrii.holub82@gmail.com", "Natalia, sokilnatalka@gmail.com",
+                                         "Oleksandr, a.chepkanich@gmail.com", "Tetiana, t_prischepa@ukr.net",
+                                         "Yevhen, kossik89@gmail.com"])
 
 # A SubmenuItem lets you add a menu (the selection_menu above, for example)
 # as a submenu of another menu
-submenu_info = SubmenuItem("Information", selection_menu_about, menu)
-submenu_creators = SubmenuItem("Creators", selection_menu_creators, menu)
+submenu_info = SubmenuItem(colored("Information", "yellow"), selection_menu_about, menu)
+submenu_creators = SubmenuItem(colored("Creators", "yellow"), selection_menu_creators, menu)
 
 # Once we're done creating them, we just add the items to the menu
 menu.append_item(address_book)

@@ -2,6 +2,7 @@ import pathlib
 import re
 import os
 import shutil
+import time
 
 
 files = {'immages': {'.jpeg', '.png', '.jpg', '.svg', '.psd'},
@@ -135,9 +136,11 @@ def main():
                 path = path
             else:
                 print(f'path {path.absolute()} not exists. Enter an existing path.')
+                time.sleep(3)
                 break
         else:
             print(f'The app did not work. Empty path. Enter an existing path.')
+            time.sleep(3)
             break
 
         duplicate_files = find_duplicate(path)
@@ -153,6 +156,7 @@ def main():
         unpacking_archives(path)
         remove_directories(path)
         print('Everything is cleaned!')
+        time.sleep(3)
         break
 
 

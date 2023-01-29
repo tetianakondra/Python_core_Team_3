@@ -5,6 +5,7 @@ import re
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.key_binding import KeyBindings
+import time
 
 finish_words = ["goodbye", "close", "exit"]
 COMMAND_WORDS = ["add", "change", "phone", "show_all", "help", "delete", "address", "email", "birthday", "days_to_birthday", "get_birthdays", "save", "get_book", "find"]
@@ -521,6 +522,7 @@ def main():
             break
 
     print("Good bye!")
+    time.sleep(2)
 
 
 if __name__ == '__main__':
