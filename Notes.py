@@ -1,6 +1,11 @@
 import pickle
 from datetime import datetime
 import time
+from prompt_toolkit import prompt
+from prompt_toolkit.completion import WordCompleter
+from prompt_toolkit.key_binding import KeyBindings
+
+COMMAND_WORDS = ["add", "delete", "edit", "exit", "help", "save", "showall", "sorted_date", "sorted_tag"]
 
 
 class NoteBook:
@@ -27,6 +32,8 @@ class NoteBook:
     def edit(self, id, text, tag=""):
         if id in self.book:
             self.book[id][0] = text
+        else:
+            return print("ID not found")
         if tag:
             self.book[id][2] = tag
 
@@ -94,12 +101,36 @@ class NoteBook:
         return rezult
 
 
+command_completer = WordCompleter(COMMAND_WORDS,ignore_case=True,)
+
+
+kb = KeyBindings()
+
+
+@kb.add("c-space")
+def _(event):
+    """
+    Start auto completion. If the menu is showing already, select the next
+    completion.
+    """
+    b = event.app.current_buffer
+    if b.complete_state:
+        b.complete_next()
+    else:
+        b.start_completion(select_first=False)
+
+
 def main():
     text = NoteBook()
     text.file_open()
 
     while True:
-        command_line = input('Input comand: ').split()
+        command_line = prompt(
+            "Enter your command: ",
+            completer=command_completer,
+            complete_while_typing=False,
+            key_bindings=kb,
+        ).split()
         command = command_line[0]
         if len(command_line) == 1:
 
@@ -148,6 +179,8 @@ def main():
                 'sorted_tag' - sorting tags alphabetically and output\n
                 'exit' - exit the program.
                 """)
+            else:
+                print("Please enter only command. Command 'help' to view a list of commands")
 
         else:
             print("Please enter only command. Command 'help' to view a list of commands")
