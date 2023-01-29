@@ -1,6 +1,7 @@
 # Import the necessary packages
 import Python_core_Team_3
 import Clean_folder
+import Notes
 from consolemenu import *
 from consolemenu.items import *
 from termcolor import colored
@@ -21,7 +22,7 @@ menu = ConsoleMenu(colored("CLI Assistant", "blue"),  colored("The application t
 # A FunctionItem runs a Python function when selected
 address_book = FunctionItem(colored("Address Book", "yellow"), Python_core_Team_3.main, [])
 clean_folder = FunctionItem(colored("Clean Folder", "yellow"), Clean_folder.main, [])
-notes = FunctionItem(colored("Notes", "yellow"), input, [">>>"])
+notes = FunctionItem(colored("Notes", "yellow"), Notes.main, [])
 
 # A SelectionMenu constructs a menu from a list of strings
 selection_menu_about = SelectionMenu([a_b, n, c_f])
