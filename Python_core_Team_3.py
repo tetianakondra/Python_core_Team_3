@@ -5,9 +5,11 @@ import re
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.key_binding import KeyBindings
+import time
 
 finish_words = ["goodbye", "close", "exit"]
 COMMAND_WORDS = ["add", "change", "phone", "show_all", "help", "delete", "address", "email", "birthday", "days_to_birthday", "get_birthdays", "save", "get_book", "find"]
+Autocomplete_words = ["goodbye", "close", "exit", "add", "change", "phone", "show_all", "help", "delete", "address", "email", "birthday", "days_to_birthday", "get_birthdays", "save", "get_book", "find"]
 
 class PhoneNotInt(Exception):
     pass
@@ -336,7 +338,7 @@ class Birthday(Field):
 
         return self.__birthday
 
-command_completer = WordCompleter(COMMAND_WORDS,ignore_case=True,)
+command_completer = WordCompleter(Autocomplete_words,ignore_case=True,)
 
 
 kb = KeyBindings()
@@ -394,7 +396,7 @@ def main():
             complete_while_typing=False,
             key_bindings=kb,
         ) 
-        user_command_small_letters =user_command.lower()
+        user_command_small_letters = user_command.lower()
 
         if user_command_small_letters == "hello":
             print("How can I help you?")
@@ -513,7 +515,12 @@ def main():
                         print(contacts.find_contact(user_data[1]))
 
         if user_command_small_letters in finish_words:
-            save_or_not = input("Do you want to save? Enter Yes or No: ")
+            save_or_not = prompt(
+            "Do you want to save? Enter Yes or No: ",
+            completer=command_completer,
+            complete_while_typing=False,
+            key_bindings=kb,
+            ) 
             save_or_not_small_letters = save_or_not.lower()
             if save_or_not_small_letters == "yes":
                 contacts.saving_address_book()
@@ -521,6 +528,7 @@ def main():
             break
 
     print("Good bye!")
+    time.sleep(2)
 
 
 if __name__ == '__main__':
