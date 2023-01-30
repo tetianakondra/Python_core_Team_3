@@ -1,16 +1,22 @@
 # PERSONAL ASSISTANT
 
 ## Installation
+You can start to work with program by clone code of program on github:
 
 [Personal Assistant code on github](https://github.com/tetianakondra/Python_core_Team_3)
 
-## Subprograms
+Or run the setup file
 
-![gjhgjh](https://github.com/aegirhall/console-menu/raw/develop/images/console-menu_screenshot1.png)
+## General information 
+Personal Assistant will help you to save you time in organisation of you work.
+
+The main menu:
+![Main menu](/docs/main_menu.jpg "Main menu")
+
+
 ### Addressbook
 Module for working with your contacts, contain and work with information about contact:
 "name", "phones", "birthday", "email", "address". 
-
 
 #### Commands:
  * **'add'** For using please input user's name and phone to add the user
@@ -32,20 +38,41 @@ Module for working with your contacts, contain and work with information about c
 ### Notebook
 Module for working with notes, contain and work with information about notes:
 "text", "tag", "id" - it is a creation time of note. 
+
+#### Commands:
+
+*  **'add'** - For using please input the note, which you want to add
+*  **'edit'** - For using please input the ID, in which you want to edit note 
+*  **'delete'** - For using please input the ID of note, which you want to delete 
+*  **'showall'** - Show all notes
+*  **'save'** - Save changes, which was done  during the session
+*  **'sorted_date'** - Sorting by date from newer records and output
+*  **'sorted_tag'** - Sorting tags alphabetically and output
+#### Exit commands:
+*  **'exit'** - exit the program.
 ### Clean Folder
 Clean folder is the application which helps to sort folders.
-To start please enter the command "clean_folder".
+To start please enter 3 for choosing the Clean Folder".
 ..
 It sorts:
-*	images ('JPEG', 'PNG', 'JPG', 'SVG');
+*	images ('JPEG', 'PNG', 'JPG', 'SVG', 'PSD' );
 *	videos ('AVI', 'MP4', 'MOV', 'MKV');
-*	documents ('DOC', 'DOCX', 'TXT', 'PDF', 'XLSX', 'PPTX');
+*	documents ('DOC', 'DOCX', 'TXT', 'PDF', 'XLSX', 'PPTX', 'XLS');
 *	music ('MP3', 'OGG', 'WAV', 'AMR');
-*   archives ('ZIP', 'GZ', 'TAR');
-*	unknown.
+*   books ('FB2', 'EPUB')
+*   drawings ('DWG', 'DXF')
+*   archives ('ZIP', 'GZTAR', 'TAR', 'BZTAR', 'XZTAR' );
+*	apps('EXE', 'MSI')
 
 Additional functions:
-*   normalize kirilic symbols to latin, other symbols to "_"
+*   normalize cyrillic symbols to latin, other symbols to "_"
 *   unpack all archives
+*   delete empty folders
 
-
+## Contacts
+Our preferred channels of communication are all public, but if you’d like to speak to us in private first, contact us directly:
+* "Andrii, andrii.holub82@gmail.com",
+* "Natalia, sokilnatalka@gmail.com"
+* "Oleksandr, a.chepkanich@gmail.com"
+* "Tetiana, t_prischepa@ukr.net"
+* "Yevhen, kossik89@gmail.com"
