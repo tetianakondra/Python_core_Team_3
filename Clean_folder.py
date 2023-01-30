@@ -101,9 +101,9 @@ def replace_known_files(path):
 
 # Функція переміщення файлів з невідомими розширеннями
 def replace_unknown_files(path, is_files):
-    for element in path.rglob('*.*'):
+    for element in path.rglob('*'):
         if element.is_file():
-            if element.suffix.casefold() not in is_files:
+            if element.suffix == '' or element.suffix.casefold() not in is_files:
                 other_folder_path = path.joinpath('other')
                 other_file_path = other_folder_path.joinpath(element.name)
                 os.replace(element, other_file_path)
