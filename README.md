@@ -3,7 +3,7 @@
 ## Installation
 
 ```
-pip install -i https://test.pypi.org/simple/ personal-assistant-cli-bot==1.0.1
+pip install personal-assistant-cli-bot
 ```
 
 
