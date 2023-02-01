@@ -1,18 +1,20 @@
 # PERSONAL ASSISTANT
 
 ## Installation
-You can start to work with program by clone code of program on github:
 
-[Personal Assistant code on github](https://github.com/tetianakondra/Python_core_Team_3)
+```
+pip install -i https://test.pypi.org/simple/ personal-assistant-cli-bot==1.0.1
+```
 
-Or run the setup file
 
 ## General information 
+To start work please enter the commmand in Terminal: pacb
+
 Personal Assistant will help you to save you time in organisation of you work.
 
 The main menu:
 ![Main menu](/docs/main_menu.jpg "Main menu")
-
+To autocomplete the name of commands use Tab
 
 ### Addressbook
 Module for working with your contacts, contain and work with information about contact:
