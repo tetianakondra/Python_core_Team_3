@@ -1,7 +1,7 @@
 # Import the necessary packages
-from . import Python_core_Team_3
-from . import Clean_folder
-from . import Notes
+import Python_core_Team_3
+import Clean_folder
+import Notes
 from consolemenu import *
 from consolemenu.items import *
 from termcolor import colored
