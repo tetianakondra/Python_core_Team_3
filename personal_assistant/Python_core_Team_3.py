@@ -130,6 +130,35 @@ class Iterable():
                 return AddressBook().contacts_on_page[self.page_number]
         raise StopIteration
 
+class AbstractGuide(ABC):
+
+    @abstractmethod
+    def show_info(self):
+        pass
+
+class Guide(AbstractGuide):
+
+    def show_info(self):
+        return """Enter\n
+                          'add' and user's name and phone to add the user,\n
+                          'birthday' and user's name and birthday in format DD.MM.YYYY to add the birthday,\n
+                          'days_to_birthday' to see the quantity of days till user's birthday,\n
+                          'get_birthdays' and number for seaching users with birthdays in number days,\n
+                          'change' and user's name and phone for changing the phone number,\n
+                          'show_phone' and user's name to show the phone number,\n
+                          'show_email' and user's name to show the email,\n
+                          'show_address' and user's name to show the address,\n
+                          'show_birthday' and user's name to show the birthday,\n
+                          'show_all' and quantity of users on page to see all users,\n
+                          'email' and user's name and email to add the email,\n
+                          'address' and user's name and address to add the address,\n
+                          'delete' and user's name to delete the contact,\n
+                          'save' for saving the address book to 'address_book.csv' in curerent folder,\n
+                          'get_book' to get the address book from 'address_book.csv' in curerent folder,\n
+                          'find' and part of data that you want to find to find the contacts with this data"""
+
+
+
 class AbstactUserInfo(ABC):
     
     @abstractmethod
@@ -468,24 +497,8 @@ def main():
                         print(f"add to the address book {contacts.add_record(change_user.add_user(change_user.record_name(Name().user_name_def(user_data[1])), change_user.record_phone(user_phone.phones), contacts.get_contacts()))}")
 
                 elif user_data[0].lower() == "help":
-                    print("""Enter\n
-                          'add' and user's name and phone to add the user,\n
-                          'birthday' and user's name and birthday in format DD.MM.YYYY to add the birthday,\n
-                          'days_to_birthday' to see the quantity of days till user's birthday,\n
-                          'get_birthdays' and number for seaching users with birthdays in number days,\n
-                          'change' and user's name and phone for changing the phone number,\n
-                          'show_phone' and user's name to show the phone number,\n
-                          'show_email' and user's name to show the email,\n
-                          'show_address' and user's name to show the address,\n
-                          'show_birthday' and user's name to show the birthday,\n
-                          'show_all' and quantity of users on page to see all users,\n
-                          'email' and user's name and email to add the email,\n
-                          'address' and user's name and address to add the address,\n
-                          'delete' and user's name to delete the contact,\n
-                          'save' for saving the address book to 'address_book.csv' in curerent folder,\n
-                          'get_book' to get the address book from 'address_book.csv' in curerent folder,\n
-                          'find' and part of data that you want to find to find the contacts with this data""")
-
+                    print(Guide().show_info())
+                    
                 elif user_command_small_letters.startswith("show_all"):
                     if len(user_data) == 2:
                         pages = contacts.get_contacts_pages(int(user_data[1]))
