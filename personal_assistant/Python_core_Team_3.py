@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 from collections import UserDict
 from datetime import datetime, timedelta
 import csv
@@ -8,7 +9,7 @@ from prompt_toolkit.key_binding import KeyBindings
 import time
 
 finish_words = ["goodbye", "close", "exit"]
-COMMAND_WORDS = ["add", "change", "phone", "show_all", "help", "delete", "address", "email", "birthday", "days_to_birthday", "get_birthdays", "save", "get_book", "find"]
+COMMAND_WORDS = ["add", "change", "show_phone", "show_all", "help", "delete", "address", "email", "birthday", "days_to_birthday", "get_birthdays", "save", "show_address", "show_email", "show_birthday", "get_book", "find"]
 Autocomplete_words = ["goodbye", "close", "exit", "add", "change", "phone", "show_all", "help", "delete", "address", "email", "birthday", "days_to_birthday", "get_birthdays", "save", "get_book", "find"]
 
 class PhoneNotInt(Exception):
@@ -129,8 +130,56 @@ class Iterable():
                 return AddressBook().contacts_on_page[self.page_number]
         raise StopIteration
 
+class AbstactUserInfo(ABC):
+    
+    @abstractmethod
+    def info_about_user(self, name, address_book):
+        pass
+
+class UserPhone(AbstactUserInfo):
+
+    def info_about_user(self, name, address_book):
+        
+        for key, val in address_book.items():
+            if key == name:
+                return f"the user {key} has the next phone numbers {address_book[key]['phones']}"
+        return f"There is not {name} in the Address book"
+
+class UserBirthday(AbstactUserInfo):
+
+    def info_about_user(self, name, address_book):
+
+        for key, val in address_book.items():
+            if key == name:
+                return f"the user {key} has birthday {address_book[key]['birthday']}"
+        return f"There is not {name} in the Address book"
+        
+
+class UserAddress(AbstactUserInfo):
+
+    def info_about_user(self, name, address_book):
+
+        for key, val in address_book.items():
+            if key == name:
+                return f"the user {key} has the next address {address_book[key]['address']}"
+        return f"There is not {name} in the Address book"
+
+class UserEmail(AbstactUserInfo):
+
+    def info_about_user(self, name, address_book):
+
+        for key, val in address_book.items():
+            if key == name:
+                return f"the user {key} has the next email {address_book[key]['email']}"
+        return f"There is not {name} in the Address book"  
+
+
+
 class Field:
     pass
+
+    
+    
 
 class Record(Field):
 
@@ -425,10 +474,13 @@ def main():
                           'days_to_birthday' to see the quantity of days till user's birthday,\n
                           'get_birthdays' and number for seaching users with birthdays in number days,\n
                           'change' and user's name and phone for changing the phone number,\n
-                          'phone' and user's name to show the phone number,\n
+                          'show_phone' and user's name to show the phone number,\n
+                          'show_email' and user's name to show the email,\n
+                          'show_address' and user's name to show the address,\n
+                          'show_birthday' and user's name to show the birthday,\n
+                          'show_all' and quantity of users on page to see all users,\n
                           'email' and user's name and email to add the email,\n
                           'address' and user's name and address to add the address,\n
-                          'show_all' and quantity of users on page to see all users,\n
                           'delete' and user's name to delete the contact,\n
                           'save' for saving the address book to 'address_book.csv' in curerent folder,\n
                           'get_book' to get the address book from 'address_book.csv' in curerent folder,\n
@@ -474,11 +526,24 @@ def main():
                             print(f"There is no {user_data[1]}in address book")
                         else:
                             print(f"{user_data[1]} was deleted from address book")
-
-
-                elif user_data[0].lower() == "phone":
+                            
+                elif user_data[0].lower() == "show_phone":
                     if len(user_data) > 1:
-                        print(change_user.show_phone(Name().user_name_def(user_data[1]), contacts.get_contacts()))
+                        print(UserPhone().info_about_user(Name().user_name_def(user_data[1]), contacts.get_contacts()))
+
+
+                elif user_data[0].lower() == "show_address":
+                    if len(user_data) > 1:
+                        print(UserAddress().info_about_user(Name().user_name_def(user_data[1]), contacts.get_contacts()))
+
+                elif user_data[0].lower() == "show_email":
+                    if len(user_data) > 1:
+                        print(UserEmail().info_about_user(Name().user_name_def(user_data[1]), contacts.get_contacts()))
+
+                elif user_data[0].lower() == "show_birthday":
+                    if len(user_data) > 1:
+                        print(UserBirthday().info_about_user(Name().user_name_def(user_data[1]), contacts.get_contacts()))
+
 
                 elif user_data[0].lower() == "days_to_birthday":
                     if len(user_data) > 1:
