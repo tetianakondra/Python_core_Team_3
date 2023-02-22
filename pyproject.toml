@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "python-core-team-3"
+version = "0.1.0"
+description = "CLI_BOT"
+authors = ["tetianakondra <tatjana.ukon@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "python_core_team_3"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+prompt-toolkit = "^3.0.37"
+console-menu = "^0.7.1"
+
+[tool.poetry.group.dev.dependencies]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

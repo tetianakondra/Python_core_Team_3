@@ -12,11 +12,14 @@ finish_words = ["goodbye", "close", "exit"]
 COMMAND_WORDS = ["add", "change", "show_phone", "show_all", "help", "delete", "address", "email", "birthday", "days_to_birthday", "get_birthdays", "save", "show_address", "show_email", "show_birthday", "get_book", "find"]
 Autocomplete_words = ["goodbye", "close", "exit", "add", "change", "phone", "show_all", "help", "delete", "address", "email", "birthday", "days_to_birthday", "get_birthdays", "save", "get_book", "find"]
 
+
 class PhoneNotInt(Exception):
     pass
 
+
 class BirthdayNotDate(Exception):
     pass
+
 
 class EmailNotEmail(Exception):
     pass
@@ -29,7 +32,6 @@ class AddressBook(UserDict):
     def __iter__(self):
         return Iterable(len(self.data), self.quantity_on_page)
 
-    
     def add_record(self, new_user):
 
         AddressBook.user_id += 1
@@ -43,7 +45,6 @@ class AddressBook(UserDict):
 
     def get_contacts(self):
         return self.data
-    
 
     def get_contacts_pages(self, quantity_on_page):
         self.contacts_on_page = []
@@ -51,8 +52,7 @@ class AddressBook(UserDict):
         len_add_book = len(self.data)
         i = -1
         for key, val in self.data.items():
-            
-  
+
             self.dict_on_page.update({key: val})
             
             if len(self.dict_on_page) >= quantity_on_page:
